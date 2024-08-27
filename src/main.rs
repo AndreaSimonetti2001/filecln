@@ -1,7 +1,7 @@
 use std::{
     env::args,
     fs::File,
-    io::{BufRead, BufReader, Read, Write},
+    io::{copy, BufRead, BufReader , Write},
     net::TcpStream,
     path::Path,
 };
@@ -35,18 +35,8 @@ fn main() {
     msg = msg.trim().to_string();
     println!("{} RECEIVED FROM THE SERVER", msg);
 
-    let mut bytes = 0;
-    let mut buf: [u8; 8192] = [0; 8192];
-
-    loop {
-        let newbytes = file.read(&mut buf).unwrap();
-        if newbytes == 0 {
-            break;
-        }
-        stream.write(buf.split_at(newbytes).0).unwrap();
-        bytes += newbytes;
-    }
-
+    let bytes = copy(&mut file, &mut stream).unwrap();
+    
     println!("SENT {} BYTES", bytes);
     stream.shutdown(std::net::Shutdown::Both).unwrap();
     println!("DONE");
