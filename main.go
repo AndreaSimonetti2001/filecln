@@ -29,8 +29,8 @@ func main() {
 	fmt.Printf("FILENAME SENT\n")
 
 	br := bufio.NewReader(stream)
-	msg, _ := br.ReadString(byte('\n'))
-	msg = strings.TrimSpace(msg)
+	msgBytes, _, _ := br.ReadLine()
+	msg := strings.TrimSpace(string(msgBytes))
 	fmt.Printf("%v RECEIVED FROM THE SERVER\n", msg)
 
 	bytes, _ := io.Copy(stream, file)
