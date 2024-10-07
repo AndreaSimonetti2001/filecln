@@ -37,6 +37,7 @@ func main() {
 
 	fmt.Printf("SENT %v BYTES\n", bytes)
 	stream.Close()
+	file.Close()
 
 	fmt.Printf("DONE\n")
 
